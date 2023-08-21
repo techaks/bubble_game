@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubble Game</title>
+    <link rel="icon" type="image/x-icon"
+        href="https://play-lh.googleusercontent.com/CBdTcT0JoukL0VzMLTUDOn_iFKEI_OUwXqRYknzBlUHIHzP8IKjUdCjV9-w2e5tH1xA">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            background-color: blueviolet;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+
+
+        }
+
+        .main {
+            display: flex;
+            flex-direction: column;
+            height: 90%;
+            width: 90%;
+            background-color: beige;
+            border-radius: 10px;
+            border: 2px solid rgb(105, 250, 255);
+            overflow: hidden;
+
+
+        }
+
+        .section1 {
+            height: 15%;
+            width: 100%;
+            background-color: rgb(99, 109, 109);
+            display: flex;
+
+
+
+        }
+
+        .box1 {
+            display: flex;
+            align-items: center;
+            font-size: 3vw;
+            width: 100%;
+            justify-content: center;
+            font-weight: bold;
+            color: rgb(239, 255, 9);
+
+        }
+
+        .box1 div {
+            height: 60%;
+            width: 35%;
+            background-color: rgba(92, 92, 94, 0.308);
+            border: 2px solid rgb(184, 211, 28);
+            margin: 5px;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+
+        }
+
+        .section2 {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            color: rgb(255, 255, 255);
+            font-weight: bold;
+            justify-content: center;
+
+        }
+
+        .bubble {
+            display: flex;
+            height: 46px;
+            width: 46px;
+            background-color: #9b4760;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            margin: 3px;
+
+        }
+
+        .bubble:hover {
+            background-color: #ff1158;
+            cursor: pointer;
+            border: 2px solid rgb(255, 251, 15);
+        }
+
+        .goal {
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gameover {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 70%;
+            height: 100%;
+            background-color: aquamarine;
+            font-size: 2rem;
+            margin-top: 140px;
+            border-radius: 10px;
+            font-size: 8vw;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="section1">
+            <div class="box1">
+                <p>TARGET</p>
+                <div class="goal">23</div>
+            </div>
+            <div class="box1">
+                <p>TIME</p>
+                <div class="timer">60</div>
+            </div>
+            <div class="box1">
+                <p>SCORE</p>
+                <div class="score">00</div>
+            </div>
+
+
+        </div>
+        <div class="section2" id="sec2">
+            <div class="bubble">1</div>
+        </div>
+    </div>
+
+    <script>
+
+        var random_number;
+        var s_time = 60;
+        var total_score = 0;
+
+        // score increase
+
+        function score() {
+            total_score += 10;
+            document.querySelector(".score").textContent = total_score;
+        }
+
+        //    timer  generator
+
+        function timer() {
+            var time = setInterval(function () {
+                s_time--;
+                document.querySelector(".timer").textContent = s_time;
+
+                if (s_time <= 0) {
+                    clearInterval(time);
+                    document.querySelector(".section2").innerHTML = "";
+                    document.querySelector(".section2").innerHTML = `<div class="gameover">GAME OVER</div> `;
+                }
+            }, 1000);
+        }
+
+        //  random goal generator
+
+        function random_target() {
+            document.querySelector(".goal").textContent = random_number = Number(Math.floor(Math.random() * 10));
+        }
+        // bubble generator
+
+        function create_bubble() {
+            var add = "";
+            for (var i = 0; i < 270; i++) {
+                random_number = Math.floor(Math.random() * 10);    //write bubble name
+
+                add += `<div class="bubble">${random_number}</div>`;
+            
+
+            }
+
+              document.querySelector('#sec2').innerHTML = add;
+
+            // for (var j = 0; j < 270; j++) {
+            //     var randomnumber = Math.floor(Math.random() * 16777215)
+            //     var randomcode = "#" + randomnumber.toString(16);
+            //     document.querySelectorAll(".bubble").style.backgroundColor = randomcode;
+            // }    
+        }
+ 
+
+
+
+
+        //  checking for right clicked
+        document.querySelector(".section2").addEventListener("click", function (detail) {
+            var check = Number(detail.target.textContent);
+
+            if (check === random_number) {
+                score();
+                create_bubble();
+                random_target();
+            }
+
+
+        }
+        )
+
+        create_bubble();
+        random_target();
+        timer();
+
+
+    </script>
+</body>
+
+</html>
